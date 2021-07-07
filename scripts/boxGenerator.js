@@ -89,18 +89,13 @@ function deg2rad(degrees) {
 // Distort point by a certain direction. If restrictedByPoint is null, move in random direction, otherwise
 // keep on line
 function distortCorner(point, distance, restrictedByPoint = null) {
-    console.log("distort by " + distance)
     if (restrictedByPoint != null) {
-        console.log("along line")
         var moveDir = point.sub(restrictedByPoint).normalized().mult(distance)
-        console.log(moveDir)
         if (Math.random() < 0.5) return point.add(moveDir)
         else return point.sub(moveDir)
     } else {
-        console.log("circle")
         var diff1 = -distance + Math.random() * distance*2
         var diff2 = Math.random() < 0.5 ? - Math.sqrt(distance**2 - diff1**2) : Math.sqrt(distance**2 - diff1**2)
-        console.log(diff1 + " " + diff2)
         if (Math.random() < 0.5) return point.add(new Point(diff1, diff2))
         else return point.add(new Point(diff2, diff1))
     }
@@ -136,10 +131,7 @@ function distortCorner(point, distance, restrictedByPoint = null) {
  *      of the remaining 3 corners 2 are freely movable and one is restricted in such a way that it defines the remaining vanishing point
  */
 function getBoxCorners(centerCornerPos, minLineLengthInitialY, maxLineLengthInitialY, minVPDistance, maxVPDistance, minDistortionDistance, maxDistortionDistance) {
-
-    console.log("") // TODO: Remove
-    console.log("")
-    
+   
 
     // Initialize arrays
     var correctCorners = [centerCornerPos,(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
@@ -197,10 +189,6 @@ function getBoxCorners(centerCornerPos, minLineLengthInitialY, maxLineLengthInit
     var vanishingPoint2 = centerCornerPos.add( ( corner2.sub(centerCornerPos) ).normalized().mult(VP2dist) )
     var vanishingPoint3 = centerCornerPos.add( ( corner3.sub(centerCornerPos) ).normalized().mult(VP3dist) )
 
-    console.log(vanishingPoint1)
-    console.log(vanishingPoint2)
-    console.log(vanishingPoint3)
-    console.log("")
     // Calculate remaining correct corners
         // outer corners
     correctCorners[4] = getIntersectionOfTwoLinesThatIntersect(corner1, vanishingPoint2, corner2, vanishingPoint1)
@@ -239,9 +227,6 @@ function getBoxCorners(centerCornerPos, minLineLengthInitialY, maxLineLengthInit
     distortedCorners[6] = distortCorner(correctCorners[6], distortionDistance2,  movementRestrictions[6] == -1 ? null : correctCorners[movementRestrictions[6]])
     distortedCorners[7] = distortCorner(correctCorners[7], distortionDistance3,  movementRestrictions[7] == -1 ? null : correctCorners[movementRestrictions[7]])
 
-
-    console.log(correctCorners)
-    console.log(distortedCorners)
 
 
 

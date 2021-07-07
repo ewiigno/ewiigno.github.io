@@ -9,7 +9,6 @@ document.addEventListener("mousedown", function(event){
     var mousePos_ = getMousePos(canvas, event)
     var mousePos = new Point(mousePos_.x, mousePos_.y)
     selectedCornerIndex = getClickedCornerIndex(mousePos, cornersDistorted, cornerMovementRestrictions)
-    console.log("ind" + selectedCornerIndex)
 
 
 });
@@ -22,7 +21,6 @@ document.addEventListener("mousemove", function(event){
 
     if (mousedown && selectedCornerIndex != null) {
         selectedCornerRestriction = cornerMovementRestrictions[selectedCornerIndex]
-        console.log("restr:" + selectedCornerRestriction)
         if (selectedCornerRestriction == -1) {
             // Allowed to move corner freely
             cornersDistorted[selectedCornerIndex] = mousePos
@@ -138,7 +136,6 @@ function setSettingsValues() {
 // Add the distances of lines to the VPs they should hit together
 function checkBox() {
     var totalDistance = 0
-    console.log(vanishingPoints)
     totalDistance += getDistanceOfPointToLine(cornersDistorted[0], cornersDistorted[1], vanishingPoints[0])
     totalDistance += getDistanceOfPointToLine(cornersDistorted[0], cornersDistorted[2], vanishingPoints[1])
     totalDistance += getDistanceOfPointToLine(cornersDistorted[0], cornersDistorted[3], vanishingPoints[2])
@@ -181,7 +178,6 @@ function newBox() {
             minInitialYLength, maxInitialYLength, VPsMinDistance, VPsMaxDistance, minDistortion, maxDistortion)
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    console.log("jkdlsajkdslj" + cornersDistorted)
     drawABox(cornersDistorted, cornerMovementRestrictions, showLinesValue)
 }
 
