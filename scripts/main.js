@@ -113,8 +113,8 @@ function setDefaultSettings() {
 
 function setSettingsValues() {
     switch (settingsVPsButton.innerHTML) {
-        case "near": VPsMinDistance = 30; VPsMaxDistance = 100; break;
-        case "medium": VPsMinDistance = 80; VPsMaxDistance = 300; break;
+        case "near": VPsMinDistance = 70; VPsMaxDistance = 250; break;
+        case "medium": VPsMinDistance = 400; VPsMaxDistance = 650; break;
         case "far": VPsMinDistance = 1000; VPsMaxDistance = 6000; break;
         case "mixed": VPsMinDistance = 5; VPsMaxDistance = 1500; break;
     }
