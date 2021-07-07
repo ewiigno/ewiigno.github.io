@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="mystyle.css">
+</head>
+<body>
+    <h1 id="heading">Correct the Box</h1>
+    <p id="tutorial">Drag corners to their correct position. Corners are either freely movable, movable along an axis or not movable.</p>
+    <div id="settings">
+        <div id="settings0">
+            <p><b>active settings</b><br>(click to change)</p>
+        </div>
+        <div id="settingsVPs">
+            <p>VPs</p>
+            <button type="button" id="settingsVPsButton" onclick="swapSettingsVPsButtonValue()">---</button> 
+        </div>
+        <div id="settingsDistortion">
+            <p>distortion</p>
+            <button type="button" id="settingsDistortionButton" onclick="swapSettingsDistortionButtonValue()">---</button> 
+        </div>
+        <div id="settingsBoxes">
+            <p>boxes</p>
+            <button type="button" id="settingsBoxesButton" onclick="swapSettingsBoxesButtonValue()">---</button> 
+        </div>
+    </div>
+    <div id="leftButtons">
+        <p id="scoreText"></p> 
+        <button type="button" id="checkBoxButton" onclick="checkBox()">Check Box</button> 
+        <button type="button" id="showLinesButton" onclick="showLines()">hide / show lines</button> 
+        <button type="button" id="showSolutionButton" onclick="showSolution()">hide / show solution</button> 
+        <button type="button" id="newBoxButton" onclick="newBox()">New Box</button> 
+    </div>
+    <canvas id="myCanvas" width="900" height="900"></canvas>
+    <script src="scripts/boxGenerator.js"></script>
+    <script src="scripts/boxDrawer.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
