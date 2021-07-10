@@ -95,6 +95,7 @@ var cornerMovementRestrictions = []
 var cornersDistorted = []
 var vanishingPoints = []
 var initialBox = []
+var lastCheckBox = []
 
 // Get Buttons
 var settingsVPsButton = document.getElementById("settingsVPsButton") // near, far, mixed
@@ -103,6 +104,7 @@ var settingsBoxesButton = document.getElementById("settingsBoxesButton") // smal
 var showEditableBoxButton = document.getElementById("showEditableBoxButton")
 var showSolutionButton = document.getElementById("showSolutionButton") 
 var showInitialBoxButton = document.getElementById("showInitialBoxButton") 
+var showAtLastCheckButton = document.getElementById("showAtLastCheckButton") 
 // score text
 var scoreText = document.getElementById("scoreText")
 var scoreText2 = document.getElementById("scoreText2")
@@ -110,7 +112,7 @@ var scoreText2 = document.getElementById("scoreText2")
 var initialScore = null
 var lastScore = null
 // whether to show the editable box, the solution or the initial box
-var boxToShow = null // "initial"; "solution"; "editable"
+var boxToShow = null // "initial"; "solution"; "editable"; "lastCheck"
 
 function setDefaultSettings() {
     settingsVPsButton.innerHTML = "medium"
@@ -145,6 +147,7 @@ function setSettingsValues() {
 // Add the distances of lines to the VPs they should hit together
 function checkBox() {
     var score = getBoxScore();
+    lastCheckBox = cornersDistorted.slice()
     var str1 = ""
     var str2 = "Since last check: "
     // Show the general score
@@ -233,6 +236,7 @@ function showSolution() {
     showEditableBoxButton.className = "buttonNotSelected"
     showSolutionButton.className =  "buttonSelected"
     showInitialBoxButton.className =  "buttonNotSelected" 
+    showAtLastCheckButton.className =  "buttonNotSelected" 
     displayBox()
 }
 
@@ -241,6 +245,7 @@ function showEditableBox() {
     showEditableBoxButton.className = "buttonSelected"
     showSolutionButton.className =  "buttonNotSelected"
     showInitialBoxButton.className =  "buttonNotSelected" 
+    showAtLastCheckButton.className =  "buttonNotSelected" 
     displayBox()
 
 }
@@ -249,11 +254,19 @@ function showInitialBox() {
     boxToShow = "initial"
     showEditableBoxButton.className = "buttonNotSelected"
     showSolutionButton.className =  "buttonNotSelected"
-    showInitialBoxButton.className =  "buttonSelected" 
+    showInitialBoxButton.className =  "buttonSelected"
+    showAtLastCheckButton.className =  "buttonNotSelected"  
     displayBox()
 }
 
-
+function showAtLastCheck() {
+    boxToShow = "lastCheck"
+    showEditableBoxButton.className = "buttonNotSelected"
+    showSolutionButton.className =  "buttonNotSelected"
+    showInitialBoxButton.className =  "buttonNotSelected"
+    showAtLastCheckButton.className =  "buttonSelected"  
+    displayBox()
+}
 
 
 // Display the box that should be displayed
@@ -263,8 +276,10 @@ function displayBox() {
         drawABox(cornersDistorted, cornerMovementRestrictions, showLinesValue)
     } else if (boxToShow == "initial") {
         drawABox(initialBox, cornerMovementRestrictions, showLinesValue)
-    } else {
+    } else if (boxToShow == "solution") {
         drawABox(cornersCorrect, cornerMovementRestrictions, showLinesValue)
+    } else {
+        drawABox(lastCheckBox, cornerMovementRestrictions, showLinesValue)
     }
     
 
@@ -279,6 +294,7 @@ function newBox() {
 
     initialScore = getBoxScore()
     initialBox = cornersDistorted.slice()
+    lastCheckBox = cornersDistorted.slice()
     lastScore = initialScore
 
     showEditableBox()
