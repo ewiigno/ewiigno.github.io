@@ -162,7 +162,7 @@ function checkBox() {
     if (score > initialScore && score > 5000) {
         str1 = "That is ... a really big number."
     } else if (score > initialScore) {
-        str1 = "Worse than at the start, try again!"
+        str1 = "Worse than at the start."
     } else if (score == initialScore) {
         str1 = "Exactly where you started."
     } else if (score < 0) {
