@@ -95,7 +95,9 @@ var cornerMovementRestrictions = []
 var cornersDistorted = []
 var vanishingPoints = []
 var initialBox = []
-var lastCheckBox = []
+var lastCheckBoxes = []
+var currentLastCheckBox = 0
+var lastCheckBoxesMaxLength = 20
 
 // Get Buttons
 var settingsVPsButton = document.getElementById("settingsVPsButton") // near, far, mixed
@@ -147,7 +149,9 @@ function setSettingsValues() {
 // Add the distances of lines to the VPs they should hit together
 function checkBox() {
     var score = getBoxScore();
-    lastCheckBox = cornersDistorted.slice()
+    // Add box to history
+    lastCheckBoxes.unshift(cornersDistorted.slice())
+    if (lastCheckBoxes.length > lastCheckBoxesMaxLength) lastCheckBoxes.pop()    
     var str1 = ""
     var str2 = "Since last check: "
     // Show the general score
@@ -226,6 +230,15 @@ function getBoxScore() {
 
 }
 
+// swap the box to display when "lastCheck" is selected
+document.addEventListener('keydown', function(event) {
+    const key = event.key;
+    if ((key == "a" || key == "ArrowLeft") && boxToShow == "lastCheck" && currentLastCheckBox < lastCheckBoxes.length - 1) currentLastCheckBox += 1
+    else if ((key == "d" || key == "ArrowRight") && boxToShow == "lastCheck" && currentLastCheckBox > 0) currentLastCheckBox -= 1
+    showAtLastCheckButton.innerHTML = "show [" + (currentLastCheckBox + 1) + "] check earlier (use [a] / [d])"
+    displayBox()
+});
+
 function showLines() {
     showLinesValue = !showLinesValue
     displayBox()
@@ -261,6 +274,7 @@ function showInitialBox() {
 
 function showAtLastCheck() {
     boxToShow = "lastCheck"
+    currentLastCheckBox = 0
     showEditableBoxButton.className = "buttonNotSelected"
     showSolutionButton.className =  "buttonNotSelected"
     showInitialBoxButton.className =  "buttonNotSelected"
@@ -279,7 +293,7 @@ function displayBox() {
     } else if (boxToShow == "solution") {
         drawABox(cornersCorrect, cornerMovementRestrictions, showLinesValue)
     } else {
-        drawABox(lastCheckBox, cornerMovementRestrictions, showLinesValue)
+        drawABox(lastCheckBoxes[currentLastCheckBox], cornerMovementRestrictions, showLinesValue)
     }
     
 
@@ -294,7 +308,9 @@ function newBox() {
 
     initialScore = getBoxScore()
     initialBox = cornersDistorted.slice()
-    lastCheckBox = cornersDistorted.slice()
+    lastCheckBoxes = [cornersDistorted.slice()]
+    currentLastCheckBox = 0
+    showAtLastCheckButton.innerHTML = "show [" + (currentLastCheckBox + 1) + "] check earlier (use [a] / [d])"
     lastScore = initialScore
 
     showEditableBox()

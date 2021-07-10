@@ -160,29 +160,29 @@ html, body {
 }
 
 #showEditableBoxButton {
-    width: 80px;
-    height: 40px;
+    width: 90px;
+    height: 60px;
     top: 370px;
     left: 30px;
 }
 
 #showInitialBoxButton {
-    width: 80px;
-    height: 40px;
-    top: 420px;
+    width: 90px;
+    height: 60px;
+    top: 440px;
     left: 30px;
 }
 
 #showSolutionButton {
-    width: 80px;
-    height: 40px;
+    width: 90px;
+    height: 60px;
     top: 370px;
-    left: 120px;
+    left: 130px;
 }
 
 #showAtLastCheckButton {
-    width: 80px;
-    height: 40px;
-    top: 420px;
-    left: 120px;
+    width: 90px;
+    height: 60px;
+    top: 440px;
+    left: 130px;
 }
