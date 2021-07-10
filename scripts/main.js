@@ -102,6 +102,11 @@ var settingsDistortionButton = document.getElementById("settingsDistortionButton
 var settingsBoxesButton = document.getElementById("settingsBoxesButton") // small, huge, mixed
 // score text
 var scoreText = document.getElementById("scoreText")
+var scoreText2 = document.getElementById("scoreText2")
+// variables to generate a text message along with the score
+var initialScore = null
+var lastScore = null
+
 
 function setDefaultSettings() {
     settingsVPsButton.innerHTML = "medium"
@@ -135,6 +140,63 @@ function setSettingsValues() {
 
 // Add the distances of lines to the VPs they should hit together
 function checkBox() {
+    var score = getBoxScore();
+    var str1 = ""
+    var str2 = "Since last check: "
+    // Show the general score
+    scoreText.innerHTML = "Off by " + Math.floor(score)
+    // Get a message along with the score
+    if (score > initialScore && score > 5000) {
+        str1 = "That is ... a really big number."
+    } else if (score > initialScore) {
+        str1 = "Worse than at the start, try again!"
+    } else if (score == initialScore) {
+        str1 = "Exactly where you started."
+    } else if (score < 0) {
+        str1 = "You are so good, you destroyed math."
+    } else if (score == 0) {
+        str1 = "Impossible!"
+    } else if (score <= 10) {
+        str1 = "Top 10! (You can stop now)."
+    } else if (score <= 25) {
+        str1 = "That is really really good!"
+    } else if (score < 50) {
+        str1 = "That is really good!"
+    } else if (score < 100) {
+        str1 = "That is good!"
+    } else if (score < 200) {
+        str1 = "That is ok!"
+    } else if (score < 400) {
+        str1 = "Still work to do."
+    } else if (score < 1000) {
+        str1 = "You can do better!"
+    } else {
+        str1 = "Better than before!"
+    }
+
+    if (score < lastScore * 0.25) {
+        str2 += "Really really big improvement!"
+    } else if (score < lastScore * 0.5) {
+        str2 += "Twice as good!"
+    } else if (score < lastScore * 0.75) {
+        str2 += "Big improvement!"
+    } else if (score < lastScore) {
+        str2 += "Improved"
+    } else if (score == lastScore) {
+        str2 += "Exactly the same"
+    } else if (score > lastScore * 4) {
+        str2 += "Seriously worsened"
+    } else if (score > lastScore * 2) {
+        str2 += "Twice as bad"
+    } else {
+        str2 += "Worsened"
+    }
+
+    scoreText2.innerHTML = str1 + "<br>" + str2
+    lastScore = score
+}
+
+function getBoxScore() {
     var totalDistance = 0
     totalDistance += getDistanceOfPointToLine(cornersDistorted[0], cornersDistorted[1], vanishingPoints[0])
     totalDistance += getDistanceOfPointToLine(cornersDistorted[0], cornersDistorted[2], vanishingPoints[1])
@@ -153,7 +215,8 @@ function checkBox() {
     totalDistance += getDistanceOfPointToLine(cornersDistorted[5], cornersDistorted[7], vanishingPoints[1])
     totalDistance += getDistanceOfPointToLine(cornersDistorted[6], cornersDistorted[7], vanishingPoints[0])
 
-    scoreText.innerHTML = "Off by " + Math.floor(totalDistance)
+    return totalDistance
+
 }
 
 function showLines() {
@@ -169,6 +232,8 @@ function showSolution() {
 
 }
 
+
+
 function newBox() {
     showingSolution = false;
     showLinesValue = false;
@@ -179,6 +244,9 @@ function newBox() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawABox(cornersDistorted, cornerMovementRestrictions, showLinesValue)
+
+    initialScore = getBoxScore()
+    lastScore = initialScore
 }
 
 function init() {

@@ -3,10 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="mystyle.css">
+    <title>Box Corrector</title>
 </head>
 <body>
     <h1 id="heading">Correct the Box</h1>
-    <p id="tutorial">Drag corners to their correct position. Corners are either freely movable, movable along an axis or not movable.</p>
+    <p id="tutorial">Drag corners to their correct position. Corners are either freely movable, movable along an axis or not movable.<br>
+        Click the "Check Box" button to get a score. (The score only gives a rough indication. A score that is bad for one box might be good for another)</p>
     <div id="settings">
         <div id="settings0">
             <p><b>active settings</b><br>(click to change)</p>
@@ -26,6 +28,8 @@
     </div>
     <div id="leftButtons">
         <p id="scoreText"></p> 
+        <p id="scoreText2"></p> 
+        <p id="scoreText3"></p> 
         <button type="button" id="checkBoxButton" onclick="checkBox()">Check Box</button> 
         <button type="button" id="showLinesButton" onclick="showLines()">hide / show lines</button> 
         <button type="button" id="showSolutionButton" onclick="showSolution()">hide / show solution</button> 
