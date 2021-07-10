@@ -4,7 +4,7 @@
 
 document.addEventListener("mousedown", function(event){
     mousedown = true
-    if (showingSolution) return
+    if (boxToShow != "editable") return
 
     var mousePos_ = getMousePos(canvas, event)
     var mousePos = new Point(mousePos_.x, mousePos_.y)
@@ -87,7 +87,6 @@ var maxDistortion = 0
 var minInitialYLength = 0
 var maxInitialYLength = 0
 var showLinesValue = false
-var showingSolution = false
 
 
 // Array initialization
@@ -95,18 +94,23 @@ var cornersCorrect = []
 var cornerMovementRestrictions = []
 var cornersDistorted = []
 var vanishingPoints = []
+var initialBox = []
 
 // Get Buttons
 var settingsVPsButton = document.getElementById("settingsVPsButton") // near, far, mixed
 var settingsDistortionButton = document.getElementById("settingsDistortionButton") // small, huge, mixed
 var settingsBoxesButton = document.getElementById("settingsBoxesButton") // small, huge, mixed
+var showEditableBoxButton = document.getElementById("showEditableBoxButton")
+var showSolutionButton = document.getElementById("showSolutionButton") 
+var showInitialBoxButton = document.getElementById("showInitialBoxButton") 
 // score text
 var scoreText = document.getElementById("scoreText")
 var scoreText2 = document.getElementById("scoreText2")
 // variables to generate a text message along with the score
 var initialScore = null
 var lastScore = null
-
+// whether to show the editable box, the solution or the initial box
+var boxToShow = null // "initial"; "solution"; "editable"
 
 function setDefaultSettings() {
     settingsVPsButton.innerHTML = "medium"
@@ -221,32 +225,63 @@ function getBoxScore() {
 
 function showLines() {
     showLinesValue = !showLinesValue
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawABox(showingSolution ? cornersCorrect : cornersDistorted, cornerMovementRestrictions, showLinesValue)
+    displayBox()
 }
 
 function showSolution() {
-    showingSolution = !showingSolution
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawABox(showingSolution ? cornersCorrect : cornersDistorted, cornerMovementRestrictions, showLinesValue)
+    boxToShow = "solution"
+    showEditableBoxButton.className = "buttonNotSelected"
+    showSolutionButton.className =  "buttonSelected"
+    showInitialBoxButton.className =  "buttonNotSelected" 
+    displayBox()
+}
 
+function showEditableBox() {
+    boxToShow = "editable"
+    showEditableBoxButton.className = "buttonSelected"
+    showSolutionButton.className =  "buttonNotSelected"
+    showInitialBoxButton.className =  "buttonNotSelected" 
+    displayBox()
+
+}
+
+function showInitialBox() {
+    boxToShow = "initial"
+    showEditableBoxButton.className = "buttonNotSelected"
+    showSolutionButton.className =  "buttonNotSelected"
+    showInitialBoxButton.className =  "buttonSelected" 
+    displayBox()
 }
 
 
 
+
+// Display the box that should be displayed
+function displayBox() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (boxToShow == "editable") {
+        drawABox(cornersDistorted, cornerMovementRestrictions, showLinesValue)
+    } else if (boxToShow == "initial") {
+        drawABox(initialBox, cornerMovementRestrictions, showLinesValue)
+    } else {
+        drawABox(cornersCorrect, cornerMovementRestrictions, showLinesValue)
+    }
+    
+
+}
+
 function newBox() {
-    showingSolution = false;
     showLinesValue = false;
     // "canvas" var should be known here
     [cornersCorrect, cornersDistorted, cornerMovementRestrictions, vanishingPoints] = getBoxCorners(
             new Point(canvas.width/2,canvas.height/2), 
             minInitialYLength, maxInitialYLength, VPsMinDistance, VPsMaxDistance, minDistortion, maxDistortion)
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawABox(cornersDistorted, cornerMovementRestrictions, showLinesValue)
-
     initialScore = getBoxScore()
+    initialBox = cornersDistorted.slice()
     lastScore = initialScore
+
+    showEditableBox()
 }
 
 function init() {

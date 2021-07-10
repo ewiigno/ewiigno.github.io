@@ -128,17 +128,54 @@ html, body {
 #newBoxButton {
     width: 140px;
     height: 40px;
+    top: 310px;
+    left: 30px;
+    text-align: center;
+    position: absolute;
+}
+
+.buttonSelected {
+    color: #000000;
+}
+
+.buttonNotSelected {
+    background-color: #636363;
+    color: #cacaca;
+    border: 1px solid #646464;
+    border-radius: 3px;
+}
+
+.buttonNotSelected:hover {
+    background-color: #6d6d6d;
+}
+
+.buttonNotSelected:active {
+    background-color: #424242;
+}
+
+#showEditableBoxButton {
+    width: 80px;
+    height: 40px;
     top: 370px;
     left: 30px;
     text-align: center;
     position: absolute;
 }
 
-#showSolutionButton {
-    width: 140px;
+#showInitialBoxButton {
+    width: 80px;
     height: 40px;
-    top: 310px;
-    left: 30px;
+    top: 370px;
+    left: 120px;
+    text-align: center;
+    position: absolute;
+    
+}
+#showSolutionButton {
+    width: 80px;
+    height: 40px;
+    top: 370px;
+    left: 210px;
     text-align: center;
     position: absolute;
 }
