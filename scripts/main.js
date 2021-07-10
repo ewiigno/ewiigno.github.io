@@ -97,7 +97,7 @@ var vanishingPoints = []
 var initialBox = []
 var lastCheckBoxes = []
 var currentLastCheckBox = 0
-var lastCheckBoxesMaxLength = 20
+var lastCheckBoxesMaxLength = 50
 
 // Get Buttons
 var settingsVPsButton = document.getElementById("settingsVPsButton") // near, far, mixed
@@ -107,6 +107,7 @@ var showEditableBoxButton = document.getElementById("showEditableBoxButton")
 var showSolutionButton = document.getElementById("showSolutionButton") 
 var showInitialBoxButton = document.getElementById("showInitialBoxButton") 
 var showAtLastCheckButton = document.getElementById("showAtLastCheckButton") 
+var checkBoxButton = document.getElementById("checkBoxButton") 
 // score text
 var scoreText = document.getElementById("scoreText")
 var scoreText2 = document.getElementById("scoreText2")
@@ -148,6 +149,7 @@ function setSettingsValues() {
 
 // Add the distances of lines to the VPs they should hit together
 function checkBox() {
+
     var score = getBoxScore();
     // Add box to history
     lastCheckBoxes.unshift(cornersDistorted.slice())
@@ -250,6 +252,8 @@ function showSolution() {
     showSolutionButton.className =  "buttonSelected"
     showInitialBoxButton.className =  "buttonNotSelected" 
     showAtLastCheckButton.className =  "buttonNotSelected" 
+    checkBoxButton.disabled = true
+    showAtLastCheckButton.innerHTML = "show [" + (currentLastCheckBox + 1) + "] check earlier (use [a] / [d])"
     displayBox()
 }
 
@@ -259,6 +263,8 @@ function showEditableBox() {
     showSolutionButton.className =  "buttonNotSelected"
     showInitialBoxButton.className =  "buttonNotSelected" 
     showAtLastCheckButton.className =  "buttonNotSelected" 
+    checkBoxButton.disabled = false
+    showAtLastCheckButton.innerHTML = "show [" + (currentLastCheckBox + 1) + "] check earlier (use [a] / [d])"
     displayBox()
 
 }
@@ -269,16 +275,19 @@ function showInitialBox() {
     showSolutionButton.className =  "buttonNotSelected"
     showInitialBoxButton.className =  "buttonSelected"
     showAtLastCheckButton.className =  "buttonNotSelected"  
+    checkBoxButton.disabled = true
+    showAtLastCheckButton.innerHTML = "show [" + (currentLastCheckBox + 1) + "] check earlier (use [a] / [d])"
     displayBox()
 }
 
 function showAtLastCheck() {
     boxToShow = "lastCheck"
-    currentLastCheckBox = 0
     showEditableBoxButton.className = "buttonNotSelected"
     showSolutionButton.className =  "buttonNotSelected"
     showInitialBoxButton.className =  "buttonNotSelected"
     showAtLastCheckButton.className =  "buttonSelected"  
+    checkBoxButton.disabled = true
+    showAtLastCheckButton.innerHTML = "show [" + (currentLastCheckBox + 1) + "] check earlier (use [a] / [d])"
     displayBox()
 }
 
@@ -301,6 +310,7 @@ function displayBox() {
 
 function newBox() {
     showLinesValue = false;
+    checkBoxButton.disabled = true;
     // "canvas" var should be known here
     [cornersCorrect, cornersDistorted, cornerMovementRestrictions, vanishingPoints] = getBoxCorners(
             new Point(canvas.width/2,canvas.height/2), 
